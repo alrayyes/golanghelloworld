@@ -7,7 +7,7 @@
 *.dll
 *.so
 *.dylib
-generictypealiasesdemo
+golanghelloworld
 
 # Test binary, built with `golang test.yml -c`
 *.test
