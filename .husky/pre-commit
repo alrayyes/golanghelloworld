@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+set -e
+
+go generate ./...
+go fmt ./...
+
+go mod download && go build -v ./...
+
+golangci-lint run
+go test -cover ./...
+
+pnpm dlx lint-staged -r
