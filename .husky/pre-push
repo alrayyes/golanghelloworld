@@ -2,8 +2,8 @@
 
 set -e
 
-pnpm run prettier:lint .
-pnpm run markdown:lint .
+bun run prettier:lint .
+bun run markdown:lint .
 
 docker compose run --rm -T hadolint hadolint docker/golang/Dockerfile
 docker compose run --rm -T hadolint hadolint docker/hadolint/Dockerfile
