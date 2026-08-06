@@ -1,0 +1,36 @@
+pre-commit:
+  commands:
+    generate:
+      run: go generate ./...
+    fmt:
+      run: go fmt ./...
+    build:
+      run: go mod download && go build -v ./...
+    golangci-lint:
+      run: golangci-lint run
+    test:
+      run: go test -cover ./...
+    lint-staged:
+      run: bunx lint-staged -r
+
+pre-push:
+  commands:
+    prettier:
+      run: bun run prettier:lint .
+    markdown:
+      run: bun run markdown:lint .
+    hadolint-golang:
+      run: docker compose run --rm -T hadolint hadolint docker/golang/Dockerfile
+    hadolint-hadolint:
+      run: docker compose run --rm -T hadolint hadolint docker/hadolint/Dockerfile
+    build:
+      run: go mod download && go build -v ./...
+    golangci-lint:
+      run: golangci-lint run
+    test:
+      run: go test -cover ./...
+
+commit-msg:
+  commands:
+    commitlint:
+      run: bunx commitlint --edit {1}
