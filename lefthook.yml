@@ -10,8 +10,17 @@ pre-commit:
       run: golangci-lint run
     test:
       run: go test -cover ./...
-    lint-staged:
-      run: bunx lint-staged -r
+    biome:
+      glob: "*"
+      run: bun run biome:format {staged_files}
+      stage_fixed: true
+    markdown:
+      glob: "*.md"
+      run: bun run markdown:format {staged_files}
+      stage_fixed: true
+    hadolint:
+      glob: "*Dockerfile"
+      run: docker compose run --rm -T hadolint hadolint {staged_files}
 
 pre-push:
   commands:
@@ -19,9 +28,7 @@ pre-push:
       run: bun run biome:lint .
     markdown:
       run: bun run markdown:lint .
-    hadolint-golang:
-      run: docker compose run --rm -T hadolint hadolint docker/golang/Dockerfile
-    hadolint-hadolint:
+    hadolint:
       run: docker compose run --rm -T hadolint hadolint docker/hadolint/Dockerfile
     build:
       run: go mod download && go build -v ./...

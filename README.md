@@ -10,7 +10,7 @@ Just a silly hello world project.
 
 - [Go](https://go.dev/dl/) 1.24+
 - [Bun](https://bun.sh) (JS tooling: biome, markdownlint, commitlint, lefthook)
-- [Docker](https://www.docker.com/) (used by lint-staged/lefthook for Dockerfile linting via hadolint and shellcheck)
+- [Docker](https://www.docker.com/) (used by lefthook to run hadolint against Dockerfiles)
 
 ## Usage
 
@@ -53,7 +53,7 @@ old prettier setup, including the `prettier-plugin-sort-json` key sorting — th
 Biome's `useSortedKeys` assist, switched off for `package.json` so its conventional key order
 survives. Biome has no YAML support, so `.yml` files are no longer auto-formatted.
 
-Dockerfiles are linted with [hadolint](https://github.com/hadolint/hadolint) via `docker compose` (see [`docker-compose.yml`](./docker-compose.yml)), and shell scripts are linted with [shellcheck](https://www.shellcheck.net/) in CI.
+Dockerfiles are linted with [hadolint](https://github.com/hadolint/hadolint) via `docker compose` (see [`docker-compose.yml`](./docker-compose.yml)).
 
 ### Commit messages
 
