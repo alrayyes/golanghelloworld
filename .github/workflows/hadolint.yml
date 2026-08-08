@@ -10,10 +10,4 @@ jobs:
       - uses: actions/checkout@v7
       - uses: hadolint/hadolint-action@v3.4.0
         with:
-          dockerfile: docker/shellcheck/Dockerfile
-      - uses: hadolint/hadolint-action@v3.4.0
-        with:
           dockerfile: docker/hadolint/Dockerfile
-      - uses: hadolint/hadolint-action@v3.4.0
-        with:
-          dockerfile: docker/golang/Dockerfile

@@ -13,9 +13,7 @@ updates:
       interval: "daily"
   - package-ecosystem: "docker"
     directories:
-      - "/docker/golang"
       - "/docker/hadolint"
-      - "/docker/shellcheck"
     schedule:
       interval: "daily"
   - package-ecosystem: "github-actions"

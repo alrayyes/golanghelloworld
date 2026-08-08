@@ -10,7 +10,17 @@ Just a silly hello world project.
 
 - [Go](https://go.dev/dl/) 1.24+
 - [Bun](https://bun.sh) (JS tooling: biome, markdownlint, commitlint, lefthook)
-- [Docker](https://www.docker.com/) (used by lint-staged/lefthook for Dockerfile linting via hadolint and shellcheck)
+- [Docker](https://www.docker.com/) (used by lefthook to run hadolint against Dockerfiles)
+- [yamlfmt](https://github.com/google/yamlfmt), [yamllint](https://yamllint.readthedocs.io),
+  [actionlint](https://github.com/rhysd/actionlint) and [typos](https://github.com/crate-ci/typos),
+  run by the `pre-push` hook:
+
+  ```shell
+  go install github.com/google/yamlfmt/cmd/yamlfmt@v0.21.0
+  go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+  pipx install yamllint==1.38.0
+  cargo install typos-cli --version 1.49.0
+  ```
 
 ## Usage
 
@@ -46,14 +56,27 @@ go test -cover ./...
 golangci-lint run    # Go
 bun biome:lint .     # JSON formatting and key ordering
 bun markdown:lint .  # Markdown
+yamlfmt -lint        # YAML formatting
+yamllint --strict .  # YAML style
+actionlint           # GitHub Actions workflows
+typos                # spelling, everywhere
 ```
 
 [Biome](https://biomejs.dev) is configured in [`biome.json`](./biome.json). It replaces the
 old prettier setup, including the `prettier-plugin-sort-json` key sorting — that lives on as
 Biome's `useSortedKeys` assist, switched off for `package.json` so its conventional key order
-survives. Biome has no YAML support, so `.yml` files are no longer auto-formatted.
+survives.
 
-Dockerfiles are linted with [hadolint](https://github.com/hadolint/hadolint) via `docker compose` (see [`docker-compose.yml`](./docker-compose.yml)), and shell scripts are linted with [shellcheck](https://www.shellcheck.net/) in CI.
+Biome has no YAML support, so YAML is handled by [yamlfmt](https://github.com/google/yamlfmt)
+(formatting, see [`.yamlfmt`](./.yamlfmt)) and [yamllint](https://yamllint.readthedocs.io)
+(style, see [`.yamllint.yml`](./.yamllint.yml)). The two disagree about inline comments by
+default, so yamllint's `min-spaces-from-content` is lowered to 1 to match what yamlfmt writes —
+otherwise each tool would undo the other on every run.
+
+Dockerfiles are linted with [hadolint](https://github.com/hadolint/hadolint) via `docker compose` (see [`docker-compose.yml`](./docker-compose.yml)).
+
+[gitleaks](https://github.com/gitleaks/gitleaks) scans the full history for committed secrets.
+It runs in CI only — it needs an unshallow clone, which is too slow to put in a git hook.
 
 ### Commit messages
 
