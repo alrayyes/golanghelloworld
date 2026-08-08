@@ -22,6 +22,11 @@ Just a silly hello world project.
   cargo install typos-cli --version 1.49.0
   ```
 
+  These four are optional. `bun install` does not provide them, so the hook skips
+  any that aren't on your `PATH` rather than failing the push — you can clone and
+  contribute without installing all four. CI runs them unconditionally, so the
+  check still can't be bypassed, it just moves later.
+
 ## Usage
 
 ```shell
