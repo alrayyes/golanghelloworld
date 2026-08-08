@@ -9,7 +9,7 @@ Just a silly hello world project.
 ## Prerequisites
 
 - [Go](https://go.dev/dl/) 1.24+
-- [Bun](https://bun.sh) (JS tooling: prettier, markdownlint, commitlint, lefthook)
+- [Bun](https://bun.sh) (JS tooling: biome, markdownlint, commitlint, lefthook)
 - [Docker](https://www.docker.com/) (used by lint-staged/lefthook for Dockerfile linting via hadolint and shellcheck)
 
 ## Usage
@@ -43,10 +43,15 @@ go test -cover ./...
 ### Linting
 
 ```shell
-golangci-lint run       # Go
-bun prettier:lint .     # formatting
-bun markdown:lint .     # Markdown
+golangci-lint run    # Go
+bun biome:lint .     # JSON formatting and key ordering
+bun markdown:lint .  # Markdown
 ```
+
+[Biome](https://biomejs.dev) is configured in [`biome.json`](./biome.json). It replaces the
+old prettier setup, including the `prettier-plugin-sort-json` key sorting — that lives on as
+Biome's `useSortedKeys` assist, switched off for `package.json` so its conventional key order
+survives. Biome has no YAML support, so `.yml` files are no longer auto-formatted.
 
 Dockerfiles are linted with [hadolint](https://github.com/hadolint/hadolint) via `docker compose` (see [`docker-compose.yml`](./docker-compose.yml)), and shell scripts are linted with [shellcheck](https://www.shellcheck.net/) in CI.
 
