@@ -28,6 +28,14 @@ pre-push:
       run: bun run biome:lint .
     markdown:
       run: bun run markdown:lint .
+    yamlfmt:
+      run: yamlfmt -lint
+    yamllint:
+      run: yamllint --strict .
+    actionlint:
+      run: actionlint
+    typos:
+      run: typos
     hadolint:
       run: docker compose run --rm -T hadolint hadolint docker/hadolint/Dockerfile
     build:

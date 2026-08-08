@@ -1,0 +1,16 @@
+name: actionlint
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  actionlint:
+    name: actionlint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: actionlint
+        uses: raven-actions/actionlint@v2.2.0

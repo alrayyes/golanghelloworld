@@ -1,0 +1,20 @@
+extends: default
+
+ignore:
+  - node_modules/
+
+rules:
+  # GitHub Actions workflows are keyed on `on:`, which yamllint would
+  # otherwise read as the boolean `true`.
+  truthy:
+    check-keys: false
+  # None of these files are multi-document, so the `---` marker is noise.
+  document-start: disable
+  # yamlfmt normalises inline comments to a single leading space, so yamllint
+  # must not insist on two — otherwise the two tools undo each other.
+  comments:
+    min-spaces-from-content: 1
+  # .editorconfig caps lines at 80, but action refs and shell one-liners in
+  # workflows regularly run longer and wrap badly.
+  line-length:
+    max: 120
