@@ -4,7 +4,7 @@ on:
 
 jobs:
   lint:
-    name: Prettier & markdown linting
+    name: Biome & markdown linting
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v7
@@ -12,7 +12,7 @@ jobs:
         uses: oven-sh/setup-bun@v2
       - name: Install dependencies
         run: bun install
-      - name: Prettier lint
-        run: bun prettier:lint .
+      - name: Biome lint
+        run: bun biome:lint .
       - name: markdown lint
         run: bun markdown:lint .

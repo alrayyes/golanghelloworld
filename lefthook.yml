@@ -15,8 +15,8 @@ pre-commit:
 
 pre-push:
   commands:
-    prettier:
-      run: bun run prettier:lint .
+    biome:
+      run: bun run biome:lint .
     markdown:
       run: bun run markdown:lint .
     hadolint-golang:
