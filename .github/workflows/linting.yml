@@ -17,4 +17,4 @@ jobs:
       - name: Prettier lint
         run: bun prettier:lint "**/*.md"
       - name: markdown lint
-        run: bun markdown:lint .
+        run: bun markdown:lint
