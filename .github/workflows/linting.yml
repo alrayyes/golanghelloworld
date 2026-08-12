@@ -4,7 +4,7 @@ on:
 
 jobs:
   lint:
-    name: Biome & markdown linting
+    name: Biome, Prettier & markdown linting
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v7
@@ -14,5 +14,7 @@ jobs:
         run: bun install
       - name: Biome lint
         run: bun biome:lint .
+      - name: Prettier lint
+        run: bun prettier:lint "**/*.md"
       - name: markdown lint
         run: bun markdown:lint .

@@ -13,9 +13,12 @@ pre-commit:
       glob: "*"
       run: bun run biome:format {staged_files}
       stage_fixed: true
+    # Prettier decides the layout and markdownlint then judges what Prettier
+    # produced. The other order has markdownlint fixing something Prettier is
+    # about to overwrite.
     markdown:
       glob: "*.md"
-      run: bun run markdown:format {staged_files}
+      run: bun run prettier:format {staged_files} && bun run markdown:format {staged_files}
       stage_fixed: true
     hadolint:
       glob: "*Dockerfile"
@@ -25,6 +28,8 @@ pre-push:
   commands:
     biome:
       run: bun run biome:lint .
+    prettier:
+      run: bun run prettier:lint "**/*.md"
     markdown:
       run: bun run markdown:lint .
     # These four are not installed by `bun install`, so a fresh clone would
