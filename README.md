@@ -29,8 +29,10 @@ Just a silly hello world project.
 ## Usage
 
 ```shell
-go run .
+go run ./cmd/golanghelloworld
 ```
+
+The greeting itself lives in [`greeting`](./greeting), so it can be imported and tested without going through the binary. `cmd/golanghelloworld` is only the wiring that prints it.
 
 ## Development
 
