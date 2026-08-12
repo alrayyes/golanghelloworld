@@ -27,6 +27,8 @@ pre-commit:
       skip:
         - run: "! command -v vale"
         - run: "! test -d styles/Google"
+      exclude:
+        - CHANGELOG.md
       run: vale {staged_files}
     hadolint:
       glob: "*Dockerfile"

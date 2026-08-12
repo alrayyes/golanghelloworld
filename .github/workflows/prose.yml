@@ -24,8 +24,11 @@ jobs:
           echo "$PWD" >> "$GITHUB_PATH"
       - name: Fetch style packages
         run: vale sync
+      # CHANGELOG.md is excluded here rather than in .vale.ini: a section with
+      # an empty BasedOnStyles does not disable a file, it just leaves the
+      # inherited styles running.
       - name: Vale
-        run: vale --glob='!{node_modules,styles,dist}/**' .
+        run: vale --glob='!{node_modules/**,styles/**,dist/**,CHANGELOG.md}' .
 
   ltex:
     name: LTeX (grammar and spelling)

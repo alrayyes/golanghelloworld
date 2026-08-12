@@ -73,7 +73,7 @@ yamlfmt -lint                # YAML formatting
 yamllint --strict .          # YAML style
 actionlint                   # GitHub Actions workflows
 typos                        # spelling, everywhere
-vale .                       # prose style
+vale --glob='!{node_modules/**,styles/**,dist/**,CHANGELOG.md}' .
 goreleaser check             # release config
 ```
 
