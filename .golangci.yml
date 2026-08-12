@@ -4,6 +4,9 @@ linters:
   disable:
     - depguard
     - forbidigo
+    # Deprecated since golangci-lint v2.12 in favour of gomodguard_v2, which
+    # `default: all` enables in its place.
+    - gomodguard
     - paralleltest
     - varnamelen
     - wsl
