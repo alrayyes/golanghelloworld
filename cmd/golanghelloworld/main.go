@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/alrayyes/golanghelloworld/greeting"
+	"github.com/alrayyes/golanghelloworld/internal/greeting"
 )
 
 func main() {

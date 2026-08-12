@@ -38,7 +38,7 @@ Just a silly hello world project.
 go run ./cmd/golanghelloworld
 ```
 
-The greeting itself lives in [`greeting`](./greeting) so it can be imported and tested without going through the binary. `cmd/golanghelloworld` is only the wiring that prints it.
+The greeting itself lives in [`internal/greeting`](./internal/greeting) so it can be imported and tested without going through the binary, and `cmd/golanghelloworld` is only the wiring that prints it. It sits under `internal/` because nothing outside this module has any business importing a hello world: Go enforces that, and it keeps the package free to change without being somebody's API.
 
 ## Development
 
