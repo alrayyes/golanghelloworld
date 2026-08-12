@@ -1,0 +1,22 @@
+name: goreleaser check
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: goreleaser check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up Go
+        uses: actions/setup-go@v7.0.0
+      - name: Check config
+        uses: goreleaser/goreleaser-action@v7.2.3
+        with:
+          distribution: goreleaser
+          version: "~> v2"
+          args: check

@@ -11,19 +11,20 @@ Just a silly hello world project.
 - [Bun](https://bun.sh) (JS tooling: biome, markdownlint, commitlint, lefthook)
 - [Docker](https://www.docker.com/) (used by lefthook to run hadolint against Dockerfiles)
 - [yamlfmt](https://github.com/google/yamlfmt), [yamllint](https://yamllint.readthedocs.io),
-  [actionlint](https://github.com/rhysd/actionlint) and [typos](https://github.com/crate-ci/typos),
-  run by the `pre-push` hook:
+  [actionlint](https://github.com/rhysd/actionlint), [typos](https://github.com/crate-ci/typos)
+  and [goreleaser](https://goreleaser.com), run by the `pre-push` hook:
 
   ```shell
   go install github.com/google/yamlfmt/cmd/yamlfmt@v0.21.0
   go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+  go install github.com/goreleaser/goreleaser/v2@v2.17.1
   pipx install yamllint==1.38.0
   cargo install typos-cli --version 1.49.0
   ```
 
-  These four are optional. `bun install` does not provide them, so the hook skips
+  These five are optional. `bun install` does not provide them, so the hook skips
   any that aren't on your `PATH` rather than failing the push — you can clone and
-  contribute without installing all four. CI runs them unconditionally, so the
+  contribute without installing all five. CI runs them unconditionally, so the
   check still can't be bypassed, it just moves later.
 
 ## Usage
@@ -64,6 +65,7 @@ yamlfmt -lint        # YAML formatting
 yamllint --strict .  # YAML style
 actionlint           # GitHub Actions workflows
 typos                # spelling, everywhere
+goreleaser check     # release config
 ```
 
 [Biome](https://biomejs.dev) is configured in [`biome.json`](./biome.json). It replaces the
