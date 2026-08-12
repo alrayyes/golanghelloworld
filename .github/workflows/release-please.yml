@@ -16,6 +16,6 @@ jobs:
       # No `release-type` here: it comes from release-please-config.json, and
       # the version comes from .release-please-manifest.json. The action picks
       # both files up by name.
-      - uses: googleapis/release-please-action@v5.0.0
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         with:
           token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}

@@ -7,7 +7,9 @@
 *.dll
 *.so
 *.dylib
-golanghelloworld
+# Anchored: unanchored it also matches the cmd/golanghelloworld/ package
+# directory, so every new file in there would be silently untracked.
+/golanghelloworld
 
 # Test binary, built with `golang test.yml -c`
 *.test
@@ -17,6 +19,7 @@ golanghelloworld
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+node_modules/
 
 # Go workspace file
 go.work
