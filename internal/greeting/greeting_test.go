@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/alrayyes/golanghelloworld/greeting"
+	"github.com/alrayyes/golanghelloworld/internal/greeting"
 	"github.com/stretchr/testify/assert"
 )
 
