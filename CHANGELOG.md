@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/alrayyes/golanghelloworld/compare/v1.0.0...v1.0.1) (2026-08-12)
+
+
+### Bug Fixes
+
+* repair the deprecated goreleaser config ([df1ef05](https://github.com/alrayyes/golanghelloworld/commit/df1ef05e10b7b97a8bd1751731a9e91eee6e2447))
+
 ## 1.0.0 (2025-02-14)
 
 
