@@ -4,6 +4,9 @@ include:
   - "**/*.yml"
 exclude:
   - node_modules/**
+  # Downloaded by `vale sync`, not ours to format.
+  - styles/Google/**
+  - styles/proselint/**
 formatter:
   type: basic
   retain_line_breaks_single: true
