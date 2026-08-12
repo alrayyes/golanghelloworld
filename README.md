@@ -10,7 +10,7 @@ Just a silly hello world project.
 ## Prerequisites
 
 - [Go](https://go.dev/dl/) 1.24+
-- [Bun](https://bun.sh) (JS tooling: biome, markdownlint, commitlint, lefthook)
+- [Bun](https://bun.sh) (JS tooling: biome, prettier, markdownlint, commitlint, lefthook)
 - [Docker](https://www.docker.com/) (used by lefthook to run hadolint against Dockerfiles)
 - [yamlfmt](https://github.com/google/yamlfmt), [yamllint](https://yamllint.readthedocs.io),
   [actionlint](https://github.com/rhysd/actionlint), [typos](https://github.com/crate-ci/typos)
@@ -62,20 +62,29 @@ go test -cover ./...
 ### Linting
 
 ```shell
-golangci-lint run    # Go
-bun biome:lint .     # JSON formatting and key ordering
-bun markdown:lint .  # Markdown
-yamlfmt -lint        # YAML formatting
-yamllint --strict .  # YAML style
-actionlint           # GitHub Actions workflows
-typos                # spelling, everywhere
-goreleaser check     # release config
+golangci-lint run            # Go
+bun biome:lint .             # JSON formatting and key ordering
+bun prettier:lint "**/*.md"  # Markdown layout
+bun markdown:lint .          # Markdown structure
+yamlfmt -lint                # YAML formatting
+yamllint --strict .          # YAML style
+actionlint                   # GitHub Actions workflows
+typos                        # spelling, everywhere
+goreleaser check             # release config
 ```
 
-[Biome](https://biomejs.dev) is configured in [`biome.json`](./biome.json). It replaces the
-old prettier setup, including the `prettier-plugin-sort-json` key sorting — that lives on as
-Biome's `useSortedKeys` assist, switched off for `package.json` so its conventional key order
-survives.
+[Biome](https://biomejs.dev) is configured in [`biome.json`](./biome.json) and owns every file
+type it supports, including the JSON key sorting that used to come from
+`prettier-plugin-sort-json` — that lives on as Biome's `useSortedKeys` assist, switched off for
+`package.json` so its conventional key order survives.
+
+[Prettier](https://prettier.io) fills the gap that leaves in prose: Markdown layout, which
+markdownlint checks but never lays out. Prettier owns table alignment, so don't line a table up
+by hand, it will just redo it. `proseWrap` is `preserve`, so your line breaks stay where you put
+them. The `pre-commit` hook runs Prettier first and markdownlint second, and the markdownlint
+rules that have an opinion about layout (MD004, MD007, MD012, MD049, MD050) are off in
+[`.markdownlint.json`](./.markdownlint.json), so the two can't undo each other. What Prettier
+does not touch is listed in [`.prettierignore`](./.prettierignore).
 
 Biome has no YAML support, so YAML is handled by [yamlfmt](https://github.com/google/yamlfmt)
 (formatting, see [`.yamlfmt`](./.yamlfmt)) and [yamllint](https://yamllint.readthedocs.io)
