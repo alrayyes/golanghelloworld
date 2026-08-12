@@ -92,7 +92,7 @@ bun commit
 
 ## Releases
 
-[release-please](https://github.com/googleapis/release-please) opens release PRs based on Conventional Commits history, and [GoReleaser](https://goreleaser.com/) (see [`.goreleaser.yaml`](./.goreleaser.yaml)) builds and publishes binaries when a version tag is pushed.
+[release-please](https://github.com/googleapis/release-please) opens release PRs based on Conventional Commits history. Merging one tags the release and cuts it, and a second job in the same workflow then runs [GoReleaser](https://goreleaser.com/) (see [`.goreleaser.yaml`](./.goreleaser.yaml)) to hang the binaries on it. Both live in [`release-please.yml`](./.github/workflows/release-please.yml): a tag pushed by an action doesn't reliably start a workflow of its own, so a separate on-tag workflow is how you end up with a release and no binaries.
 
 release-please runs in manifest mode: [`release-please-config.json`](./release-please-config.json) says how to release and [`.release-please-manifest.json`](./.release-please-manifest.json) holds the version we are on. That manifest is the file to correct by hand when a release goes wrong. Don't move the tag.
 
