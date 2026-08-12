@@ -1,7 +1,9 @@
 # golanghelloworld
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/alrayyes/golanghelloworld.svg)](https://pkg.go.dev/github.com/alrayyes/golanghelloworld)
+[![Build](https://github.com/alrayyes/golanghelloworld/actions/workflows/build.yml/badge.svg)](https://github.com/alrayyes/golanghelloworld/actions/workflows/build.yml)
+[![Tests](https://github.com/alrayyes/golanghelloworld/actions/workflows/test.yml/badge.svg)](https://github.com/alrayyes/golanghelloworld/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/alrayyes/golanghelloworld/graph/badge.svg?token=LMBZHSBSSD)](https://codecov.io/gh/alrayyes/golanghelloworld)
+[![Go Reference](https://pkg.go.dev/badge/github.com/alrayyes/golanghelloworld.svg)](https://pkg.go.dev/github.com/alrayyes/golanghelloworld)
 
 Just a silly hello world project.
 
