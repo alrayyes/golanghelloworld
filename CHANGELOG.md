@@ -5,20 +5,7 @@
 
 ### Bug Fixes
 
-* repair the deprecated goreleaser config ([c84e524](https://github.com/alrayyes/golanghelloworld/commit/c84e524b3b5a2e140084957667133b95a12b138c))
 * repair the deprecated goreleaser config ([df1ef05](https://github.com/alrayyes/golanghelloworld/commit/df1ef05e10b7b97a8bd1751731a9e91eee6e2447))
-
-## 1.0.0 (2026-08-06)
-
-
-### Features
-
-* initial import ([475d25d](https://github.com/alrayyes/golanghelloworld/commit/475d25de1632e79c1a1b13fc83a2a6eb44412a02))
-
-
-### Bug Fixes
-
-* add compiled binary to .gitignore ([52fb0d8](https://github.com/alrayyes/golanghelloworld/commit/52fb0d8e0ac20843fb6a24eaca30e2234014af4e))
 
 ## 1.0.0 (2025-02-14)
 

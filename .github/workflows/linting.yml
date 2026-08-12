@@ -4,7 +4,7 @@ on:
 
 jobs:
   lint:
-    name: Biome & markdown linting
+    name: Biome, Prettier & markdown linting
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -14,5 +14,7 @@ jobs:
         run: bun install --frozen-lockfile
       - name: Biome lint
         run: bun biome:lint .
+      - name: Prettier lint
+        run: bun prettier:lint "**/*.md"
       - name: markdown lint
         run: bun markdown:lint .
