@@ -94,6 +94,8 @@ bun commit
 
 [release-please](https://github.com/googleapis/release-please) opens release PRs based on Conventional Commits history, and [GoReleaser](https://goreleaser.com/) (see [`.goreleaser.yaml`](./.goreleaser.yaml)) builds and publishes binaries when a version tag is pushed.
 
+release-please runs in manifest mode: [`release-please-config.json`](./release-please-config.json) says how to release and [`.release-please-manifest.json`](./.release-please-manifest.json) holds the version we are on. That manifest is the file to correct by hand when a release goes wrong. Don't move the tag.
+
 ## Dependency updates
 
 [Dependabot](./.github/dependabot.yml) keeps Go, Bun, Docker, and GitHub Actions dependencies up to date. PRs that pass CI are merged automatically (see [`auto-merge-dependabot.yml`](./.github/workflows/auto-merge-dependabot.yml)); failures notify via GitHub as usual.
