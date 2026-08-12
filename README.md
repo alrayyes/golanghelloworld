@@ -1,14 +1,16 @@
 # golanghelloworld
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/alrayyes/golanghelloworld.svg)](https://pkg.go.dev/github.com/alrayyes/golanghelloworld)
+[![Build](https://github.com/alrayyes/golanghelloworld/actions/workflows/build.yml/badge.svg)](https://github.com/alrayyes/golanghelloworld/actions/workflows/build.yml)
+[![Tests](https://github.com/alrayyes/golanghelloworld/actions/workflows/test.yml/badge.svg)](https://github.com/alrayyes/golanghelloworld/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/alrayyes/golanghelloworld/graph/badge.svg?token=LMBZHSBSSD)](https://codecov.io/gh/alrayyes/golanghelloworld)
+[![Go Reference](https://pkg.go.dev/badge/github.com/alrayyes/golanghelloworld.svg)](https://pkg.go.dev/github.com/alrayyes/golanghelloworld)
 
 Just a silly hello world project.
 
 ## Prerequisites
 
 - [Go](https://go.dev/dl/) 1.24+
-- [Bun](https://bun.sh) (JS tooling: biome, markdownlint, commitlint, lefthook)
+- [Bun](https://bun.sh) (JS tooling: biome, prettier, markdownlint, commitlint, lefthook)
 - [Docker](https://www.docker.com/) (used by lefthook to run hadolint against Dockerfiles)
 - [yamlfmt](https://github.com/google/yamlfmt), [yamllint](https://yamllint.readthedocs.io),
   [actionlint](https://github.com/rhysd/actionlint), [typos](https://github.com/crate-ci/typos)
@@ -30,8 +32,10 @@ Just a silly hello world project.
 ## Usage
 
 ```shell
-go run .
+go run ./cmd/golanghelloworld
 ```
+
+The greeting itself lives in [`greeting`](./greeting), so it can be imported and tested without going through the binary. `cmd/golanghelloworld` is only the wiring that prints it.
 
 ## Development
 
@@ -58,20 +62,29 @@ go test -cover ./...
 ### Linting
 
 ```shell
-golangci-lint run    # Go
-bun biome:lint .     # JSON formatting and key ordering
-bun markdown:lint .  # Markdown
-yamlfmt -lint        # YAML formatting
-yamllint --strict .  # YAML style
-actionlint           # GitHub Actions workflows
-typos                # spelling, everywhere
-goreleaser check     # release config
+golangci-lint run            # Go
+bun biome:lint .             # JSON formatting and key ordering
+bun prettier:lint "**/*.md"  # Markdown layout
+bun markdown:lint .          # Markdown structure
+yamlfmt -lint                # YAML formatting
+yamllint --strict .          # YAML style
+actionlint                   # GitHub Actions workflows
+typos                        # spelling, everywhere
+goreleaser check             # release config
 ```
 
-[Biome](https://biomejs.dev) is configured in [`biome.json`](./biome.json). It replaces the
-old prettier setup, including the `prettier-plugin-sort-json` key sorting — that lives on as
-Biome's `useSortedKeys` assist, switched off for `package.json` so its conventional key order
-survives.
+[Biome](https://biomejs.dev) is configured in [`biome.json`](./biome.json) and owns every file
+type it supports, including the JSON key sorting that used to come from
+`prettier-plugin-sort-json` — that lives on as Biome's `useSortedKeys` assist, switched off for
+`package.json` so its conventional key order survives.
+
+[Prettier](https://prettier.io) fills the gap that leaves in prose: Markdown layout, which
+markdownlint checks but never lays out. Prettier owns table alignment, so don't line a table up
+by hand, it will just redo it. `proseWrap` is `preserve`, so your line breaks stay where you put
+them. The `pre-commit` hook runs Prettier first and markdownlint second, and the markdownlint
+rules that have an opinion about layout (MD004, MD007, MD012, MD049, MD050) are off in
+[`.markdownlint.json`](./.markdownlint.json), so the two can't undo each other. What Prettier
+does not touch is listed in [`.prettierignore`](./.prettierignore).
 
 Biome has no YAML support, so YAML is handled by [yamlfmt](https://github.com/google/yamlfmt)
 (formatting, see [`.yamlfmt`](./.yamlfmt)) and [yamllint](https://yamllint.readthedocs.io)
@@ -94,7 +107,7 @@ bun commit
 
 ## Releases
 
-[release-please](https://github.com/googleapis/release-please) opens release PRs based on Conventional Commits history, and [GoReleaser](https://goreleaser.com/) (see [`.goreleaser.yaml`](./.goreleaser.yaml)) builds and publishes binaries when a version tag is pushed.
+[release-please](https://github.com/googleapis/release-please) opens release PRs based on Conventional Commits history. Merging one tags the release and cuts it, and a second job in the same workflow then runs [GoReleaser](https://goreleaser.com/) (see [`.goreleaser.yaml`](./.goreleaser.yaml)) to hang the binaries on it. Both live in [`release-please.yml`](./.github/workflows/release-please.yml): a tag pushed by an action doesn't reliably start a workflow of its own, so a separate on-tag workflow is how you end up with a release and no binaries.
 
 release-please runs in manifest mode: [`release-please-config.json`](./release-please-config.json) says how to release and [`.release-please-manifest.json`](./.release-please-manifest.json) holds the version we are on. That manifest is the file to correct by hand when a release goes wrong. Don't move the tag.
 
