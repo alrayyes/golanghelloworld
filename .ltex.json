@@ -33,7 +33,6 @@
       "typos",
       "unshallow",
       "untracked",
-      "yamlfmt",
       "yamllint"
     ]
   },

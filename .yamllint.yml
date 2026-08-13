@@ -13,8 +13,9 @@ rules:
     check-keys: false
   # None of these files are multi-document, so the `---` marker is noise.
   document-start: disable
-  # yamlfmt normalises inline comments to a single leading space, so yamllint
-  # must not insist on two — otherwise the two tools undo each other.
+  # Prettier collapses the space before an inline comment to exactly one, so
+  # yamllint must not insist on two — the formatter would only take the second
+  # one back off on the next run, and the two would undo each other forever.
   comments:
     min-spaces-from-content: 1
   # .editorconfig caps lines at 80, but action refs and shell one-liners in
