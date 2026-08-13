@@ -4,8 +4,9 @@ bun.lock
 # release-please writes this. Reformatting it would just fight the generator.
 CHANGELOG.md
 
-# Prettier is here to fill Biome's gaps, which in this repo means Markdown and
-# nothing else. Biome owns what it supports, yamlfmt owns YAML.
+# Prettier is here to fill Biome's gaps, and those gaps are Markdown and YAML.
+# Everything below is a format Biome supports and therefore owns. Narrow this
+# list the day Biome ships Markdown or YAML of its own.
 *.json
 *.jsonc
 *.js
@@ -13,5 +14,3 @@ CHANGELOG.md
 *.cjs
 *.ts
 *.css
-*.yml
-*.yaml

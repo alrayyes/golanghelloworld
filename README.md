@@ -12,13 +12,12 @@ Just a silly hello world project.
 - [Go](https://go.dev/dl/) 1.24+
 - [Bun](https://bun.sh) (JS tooling: Biome, Prettier, markdownlint-cli2, commitlint, lefthook)
 - [Docker](https://www.docker.com/) (used by lefthook to run hadolint against Dockerfiles)
-- [yamlfmt](https://github.com/google/yamlfmt), [yamllint](https://yamllint.readthedocs.io),
+- [yamllint](https://yamllint.readthedocs.io),
   [actionlint](https://github.com/rhysd/actionlint), [typos](https://github.com/crate-ci/typos)
   [GoReleaser](https://goreleaser.com) and [Vale](https://vale.sh), run by the
   git hooks:
 
   ```shell
-  go install github.com/google/yamlfmt/cmd/yamlfmt@v0.21.0
   go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
   go install github.com/goreleaser/goreleaser/v2@v2.17.1
   go install github.com/errata-ai/vale/v3/cmd/vale@v3.17.1  # needs Go 1.25.7+
@@ -27,9 +26,9 @@ Just a silly hello world project.
   vale sync   # fetches the style packages Vale needs
   ```
 
-  These six are optional. `bun install` does not provide them, so the hook skips
+  These five are optional. `bun install` does not provide them, so the hook skips
   any that aren't on your `PATH` rather than failing the push — you can clone and
-  contribute without installing all six. CI runs them unconditionally, so the
+  contribute without installing all five. CI runs them unconditionally, so the
   check still can't be bypassed, it just moves later.
 
 ## Usage
@@ -65,14 +64,13 @@ go test -cover ./...
 ### Linting
 
 ```shell
-golangci-lint run            # Go
-bun biome:lint .             # JSON formatting and key ordering
-bun prettier:lint "**/*.md"  # Markdown layout
-bun markdown:lint            # Markdown structure
-yamlfmt -lint                # YAML formatting
-yamllint --strict .          # YAML style
-actionlint                   # GitHub Actions workflows
-typos                        # spelling, everywhere
+golangci-lint run                        # Go
+bun biome:lint .                         # JSON formatting and key ordering
+bun prettier:lint "**/*.{md,yml,yaml}"   # Markdown and YAML layout
+bun markdown:lint                        # Markdown structure
+yamllint --strict .                      # YAML style
+actionlint                               # GitHub Actions workflows
+typos                                    # spelling, everywhere
 vale --glob='!{node_modules/**,styles/**,dist/**,CHANGELOG.md}' .
 goreleaser check             # release config
 ```
@@ -82,10 +80,10 @@ type it supports, including the JSON key sorting that used to come from
 `prettier-plugin-sort-json` — that lives on as Biome's `useSortedKeys` assist, switched off for
 `package.json` so its conventional key order survives.
 
-[Prettier](https://prettier.io) fills the gap that leaves in prose: Markdown layout, which
-markdownlint checks but never lays out. Prettier owns table alignment, so don't line a table up
-by hand, it will just redo it. `proseWrap` is `preserve`, so your line breaks stay where you put
-them. The `pre-commit` hook runs Prettier first and markdownlint second, and the markdownlint
+[Prettier](https://prettier.io) fills the two gaps Biome leaves: Markdown and YAML. Markdown
+layout is the one markdownlint checks but never lays out, and Prettier owns table alignment, so
+don't line a table up by hand — it will just redo it. `proseWrap` is `preserve`, so your line breaks stay
+where you put them. The `pre-commit` hook runs Prettier first and markdownlint second, and the markdownlint
 rules that have an opinion about layout (MD004, MD007, MD012, MD049, MD050) are off in
 [`.markdownlint-cli2.jsonc`](./.markdownlint-cli2.jsonc), so the two can't undo each other. What Prettier
 does not touch is listed in [`.prettierignore`](./.prettierignore).
@@ -112,11 +110,11 @@ it in [`.ltex.json`](./.ltex.json), where `PASSIVE_VOICE` is off because Vale
 already flags passive voice and two tools underlining the same sentence is how a
 team learns to ignore both.
 
-Biome has no YAML support, so YAML is handled by [yamlfmt](https://github.com/google/yamlfmt)
-(formatting, see [`.yamlfmt`](./.yamlfmt)) and [yamllint](https://yamllint.readthedocs.io)
-(style, see [`.yamllint.yml`](./.yamllint.yml)). The two disagree about inline comments by
-default, so yamllint's `min-spaces-from-content` is lowered to 1 to match what yamlfmt writes —
-otherwise each tool would undo the other on every run.
+YAML gets the same split as Markdown: Prettier lays it out, and
+[yamllint](https://yamllint.readthedocs.io) judges the style of what Prettier produced (see
+[`.yamllint.yml`](./.yamllint.yml)). yamllint wants two spaces before an inline comment, and
+Prettier collapses that to exactly one, so `min-spaces-from-content` stays lowered to 1. Insist on
+two and the formatter takes the second one straight back off.
 
 Dockerfiles are linted with [hadolint](https://github.com/hadolint/hadolint) via `docker compose` (see [`docker-compose.yml`](./docker-compose.yml)).
 
