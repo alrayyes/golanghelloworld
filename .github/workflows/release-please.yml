@@ -25,6 +25,14 @@ jobs:
       release_created: ${{ steps.release.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
+      # This repo rebases pull requests rather than merging them, and that is a
+      # requirement rather than a preference. GitHub writes the pull request
+      # title into the body of a merge commit, release-please reads conventional
+      # commits out of a commit body as well as its subject, and so every change
+      # landed by a merge commit was listed twice in the changelog. Merge commits
+      # are switched off in the repository settings; no combination of GitHub's
+      # merge commit settings leaves that body empty.
+      #
       # No `release-type` here: it comes from release-please-config.json, and
       # the version comes from .release-please-manifest.json. The action picks
       # both files up by name.
